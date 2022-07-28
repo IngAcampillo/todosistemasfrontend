@@ -1,0 +1,127 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+  <li *ngFor="let err of errores">
+    {{ err }}
+  </li>
+</ul>
+
+  <div class="card bg-dark text-white">
+    <div class="card-header">{{ titulo }}</div>
+    <div class="card-body">
+  
+      <form #actividadForm="ngForm">
+        <div class="form-group row">
+          <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" [(ngModel)]="actividad.nombre" name="nombre" #nombre="ngModel" required="true"> <!-- required minlength="4" -->
+            <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+              <div *ngIf="nombre.errors.required">
+                Nombre es requerido
+              </div>
+              <div *ngIf="nombre.errors.minlength">
+                Nombre debe tener al menos 4 caracteres
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <label for="apellido" class="col-form-label col-sm-2">Descripción</label>
+          <div class="col-sm-6">
+            <textarea name="observacion" [(ngModel)]="actividad.descripcion" class="form-control"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="status" class="col-form-label col-sm-2">Stratus</label>
+            <div class="col-sm-9">    
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="status"
+                           value="1"
+                           #status="ngModel"
+                           [(ngModel)]="actividad.status"
+                           required="true" 
+                           id="radioRealizado">
+                    <label class="form-check-label" for="radioRealizado">
+                      Realizado
+                    </label>
+                </div>
+    
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           value="2"
+                           #status="ngModel"
+                           required="true" 
+                           [(ngModel)]="actividad.status"
+                           name="status"
+                           id="radioPendiente">
+                    <label class="form-check-label" for="radioPendiente">
+                      Pendiente
+                    </label>
+                </div>
+                <div class="alert alert-danger" *ngIf="status.invalid && (status.dirty || status.touched)">
+                  <div *ngIf="nombre.errors.required">
+                    Status es requerido
+                  </div>
+                </div>
+            </div>
+            
+        
+        </div>
+        
+        <div class="form-group row">
+          <label for="fechaPlaneadaEjecucion" class="col-form-label col-sm-2">Fecha planeada ejecución</label>
+          <div class="col-sm-6">
+            <input type="datetime-local" class="form-control" [(ngModel)]="actividad.fechaPlaneadaEjecucion" name="fechaPlaneadaEjecucion" #fechaPlaneadaEjecucion="ngModel" required="true" />
+            <div class="alert alert-danger" *ngIf="fechaPlaneadaEjecucion.invalid && (fechaPlaneadaEjecucion.dirty || fechaPlaneadaEjecucion.touched)">
+              <div *ngIf="nombre.errors.required">
+                La fecha planeada ejecucion es requerido
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+
+              
+        <div class="form-group row">
+          <label for="fechaRealEjecucion" class="col-form-label col-sm-2">Fecha real ejecución</label>
+          <div class="col-sm-6">
+            <input type="datetime-local" class="form-control" [(ngModel)]="actividad.fechaRealEjecucion" name="fechaRealEjecucion" />
+          </div>
+        </div>
+        
+  
+        
+        <div class="form-group row">
+          <label for="region" class="col-form-label col-sm-2">Empleado</label>
+          <div class="col-sm-6">
+            <select [compareWith]="compararEmpleado" class="form-control" [(ngModel)]="empleadoSelected" name="empleado" style="width:500px;" #empleado="ngModel" required="true">
+              <option [ngValue]="undefined">--- selecionar un empleado ---</option>
+              <option *ngFor="let empleado of empleadoList" [ngValue]="empleado">{{empleado.nombreCompleto}}</option>
+            </select>
+            <div class="alert alert-danger" *ngIf="empleado.invalid && (empleado.dirty || empleado.touched)">
+              <div *ngIf="nombre.errors.required">
+                El empleado es requerido
+              </div>
+              
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <button class="btn btn-primary" role="button" (click)='create()' *ngIf="!actividad.id else elseBlock" [disabled]="!actividadForm.form.valid">Crear</button>
+  
+            <ng-template #elseBlock>
+              <button class="btn btn-primary" role="button" (click)='update()' [disabled]="!actividadForm.form.valid">Editar</button>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+  
+    </div>
+  </div>
+  

@@ -1,0 +1,65 @@
+<div class="card border-primary mb-3">
+    <div class="card-header">Actividades</div>
+    <div class="my-2 text-left">
+      <button  class="btn btn-rounded btn-primary" type="button" [routerLink]="['/actividad/form']">
+        Crear Actividad
+      </button>
+    </div>
+    <div class="card-body text-primary">
+      
+      <h5 class="card-title">Listado de actividades</h5>
+      
+      <div class="my-2 text-left">
+       
+      <div *ngIf="actividadList?.length == 0" class="alert alert-info">
+        NO hay actividades que mostrar!.
+      </div>
+  
+      <table
+        class="table table-bordered"
+        style="border: none"
+        *ngIf="actividadList?.length > 0"
+      >
+        <thead>
+          <tr>
+            <th class="title-column">Id</th>
+            <th class="title-column">Fecha ejecución planeada</th>
+            <th class="title-column">Fecha ejecución real</th>
+            <th class="title-column">Retraso</th>
+            <th class="title-column">Nombre</th>
+            <th class="title-column">Descrición</th>
+            <th class="title-column">Empleado</th>
+            <th class="title-column">Status</th>
+            <th >editar</th>
+            <th>eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let actividad of actividadList"
+            [class.selectedRow]="rowIsSelected(actividad.id)"
+            (click)="onRowClick(actividad.id)"
+            style="cursor: pointer"
+          >
+            <td class="row-left title">{{ actividad.id }}</td>
+            <td class="row-left title">{{ actividad.fechaFormateadaPlaneada}}</td>
+            <td class="row-left title">{{ actividad.fechaFormateadaReal}}</td>
+            <td class="row-left title">{{ actividad.diasRetraso }}</td>
+            <td class="row-left title">{{ actividad.nombre | uppercase }}</td>
+            <td class="row-left title">{{ actividad.descripcion | uppercase }}</td>
+            <td class="row-left title">{{ actividad.empleadoAsignado | uppercase }}</td>
+            <td class="row-left title"> {{actividad.nombreStatus}}
+            </td>
+            <td >
+                <button type="button" name="editar"  [routerLink]="['/actividad/form', actividad.id]" class="btn btn-primary btn-sm">Editar</button>
+              </td>
+              <td >
+                <button type="button" name="eliminar" (click)='delete(actividad)' class="btn btn-danger btn-sm">Eliminar</button>
+              </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
