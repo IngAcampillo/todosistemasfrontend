@@ -35,7 +35,6 @@ export class FormActividadComponent implements OnInit {
           .subscribe((resp: RespuestaServicio) => {
             if (resp.ok) {
               this.actividad = resp.body as Actividad;
-              this.empleadoSelected.id=this.actividad.idEmpleadoAsignado;
             }
           });
       }
@@ -78,6 +77,7 @@ export class FormActividadComponent implements OnInit {
   }
 
   update(): void {
+    this.actividad.idEmpleadoAsignado=this.empleadoSelected.id;
     console.log(this.actividad);
     this.actividadService.actualizar(this.actividad).subscribe(
       (resp: RespuestaServicio) => {
